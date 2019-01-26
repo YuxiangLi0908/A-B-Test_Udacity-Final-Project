@@ -12,8 +12,8 @@
   - [6.2 Clicks](#62-clicks)
   - [6.3 Click-Through-Probability](#63-click-through-probability)
 - [7. Effect Size Tests](#7-effect-size-tests)
-  - [7.1 Gross Conversion](#-71-gross-conversion)
-  - [7.2 Net Conversion](#-72-net-conversion)
+  - [7.1 Gross Conversion](#71-gross-conversion)
+  - [7.2 Net Conversion](#72-net-conversion)
 - [8. Sign Tests](#8-sign-tests)
 - [9. Recommendation](#9-recommendation)
 
