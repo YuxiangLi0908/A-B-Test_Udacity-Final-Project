@@ -110,9 +110,8 @@ exp = pd.read_excel('Final+Project+Results.xlsx', 1, index_col=0)
 
 ### 6.1 Pageviews
 
-# Pageviews
-
 ```python
+# Pageviews
 pageviews_ctrl = ctrl.Pageviews.sum()
 pageviews_exp = exp.Pageviews.sum()
 pageviews_total = pageviews_ctrl + pageviews_exp
