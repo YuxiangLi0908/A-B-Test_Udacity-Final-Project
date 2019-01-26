@@ -45,11 +45,57 @@ We need two kinds of metrics to make sure our experiment is not inherently wrong
 
 ## 4 Measuring Variability
 
-Before collecting experimental data, we need to estimate the standard deviation of our metrics using historical data. By measuring variability of our metrics, we can then decide how many samples we need to 
+Before collecting experimental data, we need to estimate the standard deviation of our evaluation metrics using historical data. By measuring variability of our metrics, we can then decide how many samples we need to collect.
+
+```python
+# Calculate standard deviation of evaluation metrics given a sample of 5000 cookies
+baseline = {'cookies': 5000,
+            'click': 400,
+            'enrollment': 82.5,
+            'CTP': 0.08,
+            'GC': 0.20625,
+            'R': 0.53,
+            'NC': 0.109313}
+            
+std_GC = np.sqrt(baseline['GC']*(1-baseline['GC'])/baseline['click'])
+std_R = np.sqrt(baseline['R']*(1-baseline['R'])/baseline['enrollment'])
+std_NC = np.sqrt(baseline['NC']*(1-baseline['NC'])/baseline['click'])
+
+[std_GC, std_R, std_NC]
+```
+```python
+[0.020230604137049392, 0.05494901217850908, 0.015601575884425905]
+```
 
 ## 5 Sizing
 
+In any experiment design, determination of the sample size is a fundamental step. Based on the distribution of the metric, the sample size is a function of some parameters such as alpha, i.e. significance level, beta, false negative probability or type II error, baseline conversion, practical significance and so.
+
+[Online_Sample_Size_Calculator](http://www.evanmiller.org/ab-testing/sample-size.html) is a convenient method to calculate the sample size. Here are the results:
+
+```python
+# Sample size using online calculator
+sample_size_calculator = {'GC': [25835, round(25835/baseline['CTP']*2)],
+                          'R': [39115, round(39115/baseline['GC']/baseline['CTP']*2)],
+                          'NC': [27413, round(27413/baseline['CTP']*2)]}
+
+sample_size_calculator = pd.DataFrame.from_dict(sample_size_calculator, orient='index', columns=['Sample_size', 'Number_of_cookies'])
+sample_size_calculator
+```
+
+|   |Sample_size|Number_of_cookies|
+|---|---|---|
+|GC|25835|645875|
+|R|39115|4741212|
+|NC|27413|685325|
+
+We notice that we need at least 4741212 cookies to perform an A/B test on retention. However, we only get 40000 cookies per day, which means it would take us 119 days to collect data. Thus we have to drop this evaluation metric in this experiment. By doing this, we then need only 685325 cookies to perform our test.
+
+Also, we do not want to expose all our traffic to this experiment, because the experiment might cause side-effect on our users. Thus, we choose to divert 50% of our traffic to this experiment. Thus, it will take us roughly a month for this experiment. This is a more realistic duration.
+
 ## 6 Sanity Check
+
+
 
 ## 7 Effect Size Tests
 
