@@ -4,7 +4,7 @@
 - [2. Experiment Overview: Free Trial Screener](#2-experiment-overview-free-trial-screener)
 - [3. Metric Choice](#3-metric-choice)
   - [3.1 Invariant Metrics](#31-invariant-metrics)
-  - [3.1 Evaluation Metrics](#32-evaluation-metrics)
+  - [3.2 Evaluation Metrics](#32-evaluation-metrics)
 - [4. Measuring Variability](#4-measuring-variability)
 - [5. Sizing](#5-sizing)
 - [6. Sanity Check](#6-sanity-check)
