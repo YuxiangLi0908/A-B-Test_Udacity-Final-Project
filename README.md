@@ -1,7 +1,7 @@
 # A/B-Test_Udacity-Final-Project
 
 - [1. Introduction](#1-introduction)
-- [2. Experiment Overview: Free Trial Screener](#2-experiment-overview:-free-trail-screener)
+- [2. Experiment Overview: Free Trial Screener](#2-experiment-overview-free-trail-screener)
 - [3. Metric Choice](#3-metric-choice)
 - [4. Measuring Variability](#4-measuring-variability)
 - [5. Sizing](#5-sizing)
