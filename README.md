@@ -193,7 +193,9 @@ CI_GC
 [-0.02912320088750467, -0.011986548273218463]
 ```
 
-We have a negative change of 2.06% on gross conversion. Since the p-value is smaller than 0.05, the difference is statistically significant. And the minimum detectable effect is not in the confidence interval, which means our resault is also practically significant. Thus, we can say the screener does effectively reduce the number of students who enrolled at the initial click.
+![](https://github.com/YuxiangLi0908/A-B-Test_Udacity-Final-Project/blob/master/Data/hypothesis_test_gc.png)
+
+We have a negative change of 2.06% on gross conversion. Since the p-value is smaller than 0.05, the difference is statistically significant. And the minimum detectable effect is not in the confidence interval, which means our result is also practically significant. Thus, we can say the screener does effectively reduce the number of students who enrolled at the initial click.
 
 ### 7.2 Net Conversion
 
@@ -219,6 +221,48 @@ CI_NC
 [-0.011604500677993734, 0.0018570553289053993]
 ```
 
+![](https://github.com/YuxiangLi0908/A-B-Test_Udacity-Final-Project/blob/master/Data/hypothesis_test_nc.png)
+
+For net conversion, we have a negative change of 0.49%, which is neither statitically nor practically significant.
+
 ## 8 Sign Tests
 
+In order to double check our test results, we perform a sign test to our evaluation metrics.
+
+```python
+# Sign Test
+ST = ctrl.merge(exp, left_index=True, right_index=True)
+ST = ST.loc[ST.Payments_x.notnull(),:]
+ST['GC'] = ST['Enrollments_y']/ST['Clicks_y'] > ST['Enrollments_x']/ST['Clicks_x']
+ST['NC'] = ST['Payments_y']/ST['Clicks_y'] > ST['Payments_x']/ST['Clicks_x']
+
+def sign_test(x, n):
+    def binomial(x, n):
+        return comb(n,x)*0.5**n
+    p = 0
+    for i in range(x+1):
+        p = p + binomial(i, n)
+    return p
+```
+```python
+# Gross Conversion
+p_GC_ST = 2 * sign_test(ST['GC'].sum(), ST['GC'].count())
+p_GC_ST
+```
+```python
+0.002599477767944336
+```
+```python
+# Net Conversion
+p_NC_ST = 2 * sign_test(ST['NC'].sum(), ST['NC'].count())
+p_NC_ST
+```
+```python
+0.6776394844055176
+```
+
+The results of sign tests are consistent with effect size tests. The change in gross conversion is indeed siginificant, while the change in net conversion is not.
+ 
 ## 9 Recommendation
+
+From the test results, I would recommend not launching this experiment. Although the change reduces the gross conversion as expected, it does not change the net conversion at all. This means that the enrollments reduces without an increase in payments. Thus, my recomendation is not to launch, and further experiments with other changes and metrics should be performed.
