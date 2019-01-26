@@ -12,6 +12,8 @@
   - [6.2 Clicks](#62-clicks)
   - [6.3 Click-Through-Probability](#63-click-through-probability)
 - [7. Effect Size Tests](#7-effect-size-tests)
+  - [7.1 Gross Conversion](#-71-gross-conversion)
+  - [7.2 Net Conversion](#-72-net-conversion)
 - [8. Sign Tests](#8-sign-tests)
 - [9. Recommendation](#9-recommendation)
 
@@ -98,13 +100,124 @@ Also, we do not want to expose all our traffic to this experiment, because the e
 
 ## 6 Sanity Check
 
+Before our final tests, we need to perform a sanity check to make our invariant metrics are equivalent between the two groups, since the changes we make will not affect those metrics.
+
+```python
+# Sanity Check
+ctrl = pd.read_excel('Final+Project+Results.xlsx', 0, index_col=0)
+exp = pd.read_excel('Final+Project+Results.xlsx', 1, index_col=0)
+```
+
 ### 6.1 Pageviews
+
+# Pageviews
+
+```python
+pageviews_ctrl = ctrl.Pageviews.sum()
+pageviews_exp = exp.Pageviews.sum()
+pageviews_total = pageviews_ctrl + pageviews_exp
+stats_pageviews = (pageviews_ctrl/pageviews_total - 0.5)/np.sqrt((0.5**2/pageviews_total))
+p_pageviews = 1-stats.norm.cdf(stats_pageviews) # stats_pageviews > 0
+p_pageviews
+```
+```python
+0.14392482085331415
+```
+
+Since the p-value is larger than 0.05, we will accept the null hypothesis that the number of pageviews is the same between control and experiment group.
 
 ### 6.2 Clicks
 
+```python
+# Clicks
+click_ctrl = ctrl.Clicks.sum()
+click_exp = exp.Clicks.sum()
+click_total = click_ctrl + click_exp
+stats_click = (click_ctrl/click_total - 0.5)/np.sqrt((0.5**2/click_total))
+p_click = 1-stats.norm.cdf(stats_click) # stats_click > 0
+p_click
+```
+```python
+0.41193385199077437
+```
+Since the p-value is larger than 0.05, we will accept the null hypothesis that the number of clicks on the 'start free trial' button is the same between control and experiment group.
+
 ### 6.3 Click-Through-Probability
 
+```python
+# Click Through Probability
+CTP_ctrl = click_ctrl/pageviews_ctrl
+CTP_exp = click_exp/pageviews_exp
+CTP_pool = click_total/pageviews_total
+CTP_std = np.sqrt(CTP_pool*(1-CTP_pool)*(1/pageviews_ctrl + 1/pageviews_exp))
+stats_CTP = (CTP_ctrl-CTP_exp)/CTP_std
+p_CTP = stats.norm.cdf(stats_CTP) # stats_CTP < 0
+p_CTP
+```
+```python
+0.4658679762236956
+```
+
+Since the p-value is larger than 0.05, we will accept the null hypothesis that the click-through-probability is the same between control and experiment group.
+
+Thus, our experiment passes the sanity check. We can move forward and start testing the effect of the changes we make.
+
 ## 7 Effect Size Tests
+
+Since we dropped the retension metric because of sizing problem, we will only test the effect on gross conversion and net conversion.
+
+### 7.1 Gross Conversion
+
+```python
+# Effect Size Tests
+# Gross Conversion
+GC_clicks_ctrl = ctrl.loc[ctrl.Enrollments.notnull(), 'Clicks'].sum()
+GC_clicks_exp = exp.loc[exp.Enrollments.notnull(), 'Clicks'].sum()
+GC_ctrl = ctrl.Enrollments.sum()/GC_clicks_ctrl
+GC_exp = exp.Enrollments.sum()/GC_clicks_exp
+GC_diff = GC_exp-GC_ctrl
+GC_pooled = (ctrl.Enrollments.sum()+exp.Enrollments.sum())/(GC_clicks_ctrl+GC_clicks_exp)
+GC_std = np.sqrt(GC_pooled*(1-GC_pooled)*(1/GC_clicks_ctrl+1/GC_clicks_exp))
+stats_GC = GC_diff/GC_std
+p_GC = stats.norm.cdf(stats_GC) # stats_GC < 0
+p_GC
+```
+```python
+1.2892005168602965e-06
+```
+```python
+CI_GC = [GC_diff-stats.norm.ppf(1-0.05/2)*GC_std, GC_diff+stats.norm.ppf(1-0.05/2)*GC_std]
+CI_GC
+```
+```python
+[-0.02912320088750467, -0.011986548273218463]
+```
+
+We have a negative change of 2.06% on gross conversion. Since the p-value is smaller than 0.05, the difference is statistically significant. And the minimum detectable effect is not in the confidence interval, which means our resault is also practically significant. Thus, we can say the screener does effectively reduce the number of students who enrolled at the initial click.
+
+### 7.2 Net Conversion
+
+```python
+# Net Conversion
+NC_ctrl = ctrl.Payments.sum()/GC_clicks_ctrl
+NC_exp = exp.Payments.sum()/GC_clicks_exp
+NC_diff = NC_exp-NC_ctrl
+NC_pooled = (ctrl.Payments.sum()+exp.Payments.sum())/(GC_clicks_ctrl+GC_clicks_exp)
+NC_std = np.sqrt(NC_pooled*(1-NC_pooled)*(1/GC_clicks_ctrl+1/GC_clicks_exp))
+stats_NC = NC_diff/NC_std
+p_NC = stats.norm.cdf(stats_NC) # stats_NC < 0
+p_NC
+```
+```python
+0.07792034131075103
+```
+```python
+CI_NC = [NC_diff-stats.norm.ppf(1-0.05/2)*NC_std, NC_diff+stats.norm.ppf(1-0.05/2)*NC_std]
+CI_NC
+```
+```python
+[-0.011604500677993734, 0.0018570553289053993]
+```
 
 ## 8 Sign Tests
 
