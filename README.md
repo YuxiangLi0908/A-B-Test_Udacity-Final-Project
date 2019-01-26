@@ -3,7 +3,8 @@
 - [1. Introduction](#1-introduction)
 - [2. Experiment Overview: Free Trial Screener](#2-experiment-overview-free-trial-screener)
 - [3. Metric Choice](#3-metric-choice)
-- [3.1 Invariant Metrics](#31-invariant-metrics)
+  - [3.1 Invariant Metrics](#31-invariant-metrics)
+  - [3.1 Evaluation Metrics](#32-evaluation-metrics)
 - [4. Measuring Variability](#4-measuring-variability)
 - [5. Sizing](#5-sizing)
 - [6. Sanity Check](#6-sanity-check)
@@ -27,13 +28,24 @@ The unit of diversion is a cookie, although if the student enrolls in the free t
 
 ## 3 Metric Choice
 
-We need two kinds of metrics to make sure our experiment goes well. One is invariant metrics, which will not change significantly between control and experiment groups. Another is evaluation metrics, which are used to test the effect of the changes we made.
+We need two kinds of metrics to make sure our experiment is not inherently wrong. One is invariant metrics, which will not change significantly between control and experiment groups. Another is evaluation metrics, which are used to test the effect of the changes we made.
 
 ### 3.1 Invariant Metrics
 
+* **Number of cookies:** number of unique cookies to view the course overview page.
+* **Number of clicks:** number of unique cookies to click the "Start free trial" button (which happens before the free trial screener is trigger).
+* **Click-through-probability:** number of unique cookies to click the "Start free trial" button divided by number of unique cookies to view the course overview page.
 
+
+### 3.2 Evaluation Metrics
+
+* **Gross conversion:** number of user-ids to complete checkout and enroll in the free trial divided by number of unique cookies to click the "Start free trial" button.
+* **Retention:** number of user-ids to remain enrolled past the 14-day boundary (andthus make at least one payment) divided by number of user-ids to complete checkout.
+* **Net conversion:** number of user-ids to remain enrolled past the 14-dayboundary (and thus make at least one payment) divided by the number of unique cookies to click the "Start free trial" button.
 
 ## 4 Measuring Variability
+
+Before collecting experimental data, we need to estimate the standard deviation of our metrics using historical data. By measuring variability of our metrics, we can then decide how many samples we need to 
 
 ## 5 Sizing
 
