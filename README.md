@@ -1,13 +1,20 @@
 # A/B-Test_Udacity-Final-Project
 
-- [1. Introduction](#A/B-Test_Udacity-Final-Project)
+- [1. Introduction](#1-introduction)
+- [2. Experiment Overview: Free Trial Screener](#2-experiment-overview:-free-trail-screener)
+- [3. Metric Choice](#3-metric-choice)
+- [4. Measuring Variability](#4-measuring-variability)
+- [5. Sizing](#5-sizing)
+- [6. Sanity Check](#6-sanity-check)
+- [7. Effect Size Tests](#7-effect-size-tests)
+- [8. Sign Tests](#8-sign-tests)
+- [9. Recommendation](#9-recommendation)
 
-
-# 1 Introduction
+## 1 Introduction
 
 This report is the final project of Udacity A/B Testing Course, which helps to test the effects of changing the UI after clicking the "start free trail" button on Udacity website.
 
-# 2 Experiment Overview: Free Trial Screener
+## 2 Experiment Overview: Free Trial Screener
 
 At the time of this experiment, Udacity courses currently have two options on the home page: 
 "start free trial", and "access course materials". If the student clicks "start free trial", they will be
@@ -37,16 +44,16 @@ by user-id from that point forward. The same user­id cannot enroll in the free 
 users that do not enroll, their user­id is not tracked in the experiment, even if they were signed
 in when they visited the course overview page.
 
-# 3 Metric Choice
+## 3 Metric Choice
 
-# 4 Measuring Variability
+## 4 Measuring Variability
 
-# 5 Sizing
+## 5 Sizing
 
-# 6 Sanity Check
+## 6 Sanity Check
 
-# 7 Effect Size Tests
+## 7 Effect Size Tests
 
-# 8 Sign Tests
+## 8 Sign Tests
 
-# 9 Recommendation
+## 9 Recommendation
