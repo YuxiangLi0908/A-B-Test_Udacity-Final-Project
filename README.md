@@ -8,6 +8,9 @@
 - [4. Measuring Variability](#4-measuring-variability)
 - [5. Sizing](#5-sizing)
 - [6. Sanity Check](#6-sanity-check)
+  - [6.1 Pageviews](#61-pageviews)
+  - [6.2 Clicks](#62-clicks)
+  - [6.3 Click-Through-Probability](#63clickthroughprobability)
 - [7. Effect Size Tests](#7-effect-size-tests)
 - [8. Sign Tests](#8-sign-tests)
 - [9. Recommendation](#9-recommendation)
@@ -95,7 +98,11 @@ Also, we do not want to expose all our traffic to this experiment, because the e
 
 ## 6 Sanity Check
 
+### 6.1 Pageviews
 
+### 6.2 Clicks
+
+### 6.3 Click-Through-Probability
 
 ## 7 Effect Size Tests
 
