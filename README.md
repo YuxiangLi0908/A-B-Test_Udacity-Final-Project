@@ -1,5 +1,7 @@
 # A/B-Test_Udacity-Final-Project
 
+---
+
 - [1. Introduction](#1-introduction)
 - [2. Experiment Overview: Free Trial Screener](#2-experiment-overview-free-trial-screener)
 - [3. Metric Choice](#3-metric-choice)
@@ -16,6 +18,8 @@
   - [7.2 Net Conversion](#72-net-conversion)
 - [8. Sign Tests](#8-sign-tests)
 - [9. Recommendation](#9-recommendation)
+
+---
 
 ## 1 Introduction
 
